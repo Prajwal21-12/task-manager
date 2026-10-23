@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7fb">
+  <meta name="description" content="TaskFlow — a smart task manager and productivity tracker.">
+  <title>TaskFlow | Productivity Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="#" aria-label="TaskFlow home">
+      <span class="brand-icon">✓</span>
+      <span>TaskFlow</span>
+    </a>
+
+    <div class="header-actions">
+      <span class="header-caption">Your personal workspace</span>
+      <button id="themeToggle" class="theme-toggle" type="button"
+        aria-label="Switch to dark mode" title="Toggle theme">
+        <span id="themeIcon" aria-hidden="true">☾</span>
+        <span id="themeLabel">Dark mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">YOUR PRODUCTIVITY SPACE</p>
+        <h1>Make today count.</h1>
+        <p>Organize your priorities. Make progress every day.</p>
+      </div>
+      <div class="date-badge" id="todayDate"></div>
+    </section>
+
+    <section class="summary" aria-label="Task statistics">
+      <article class="stat">
+        <p>Total tasks</p>
+        <h2 id="totalCount">0</h2>
+      </article>
+      <article class="stat">
+        <p>Active tasks</p>
+        <h2 id="pendingCount">0</h2>
+      </article>
+      <article class="stat">
+        <p>Completed</p>
+        <h2 id="completedCount">0</h2>
+      </article>
+      <article class="stat">
+        <p>Overdue</p>
+        <h2 id="overdueCount">0</h2>
+      </article>
+    </section>
+
+    <section class="panel progress-panel">
+      <div class="progress-heading">
+        <div>
+          <p class="eyebrow">YOUR DAILY PROGRESS</p>
+          <h2>Keep moving forward</h2>
+        </div>
+        <strong id="progressPercent">0%</strong>
+      </div>
+
+      <div
+        class="progress-track"
+        id="progressTrack"
+        role="progressbar"
+        aria-label="Task completion progress"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+      >
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+      <p id="progressMessage" class="progress-message">Your progress starts with one task.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">PLAN YOUR DAY</p>
+          <h2 id="formHeading">Create a task</h2>
+        </div>
+      </div>
+
+      <form id="taskForm">
+        <div class="form-group full-width">
+          <label for="taskInput">Task title</label>
+          <input id="taskInput" name="title" type="text"
+            placeholder="What do you need to accomplish?"
+            maxlength="120" required>
+        </div>
+
+        <div class="form-group">
+          <label for="taskCategory">Category</label>
+          <select id="taskCategory" name="category" required>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Study" selected>Study</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="taskPriority">Priority</label>
+          <select id="taskPriority" name="priority" required>
+            <option value="High">High</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="taskDueDate">Due date</label>
+          <input id="taskDueDate" name="dueDate" type="date">
+        </div>
+
+        <div class="form-actions full-width">
+          <button type="submit" id="submitTaskBtn" class="primary-btn">+ Add Task</button>
+          <button type="button" id="cancelEditBtn" class="secondary-btn" hidden>
+            Cancel edit
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="list-header">
+        <div>
+          <p class="eyebrow">YOUR WORKSPACE</p>
+          <h2>My Tasks</h2>
+        </div>
+        <span id="visibleCount" class="task-count">0 tasks</span>
+      </div>
+
+      <div class="toolbar">
+        <label class="search-box" for="taskSearch">
+          <span aria-hidden="true">⌕</span>
+          <input id="taskSearch" type="search" placeholder="Search tasks..."
+            aria-label="Search tasks">
+        </label>
+
+        <select id="taskFilter" aria-label="Filter by status">
+          <option value="all">All statuses</option>
+          <option value="pending">Active</option>
+          <option value="completed">Completed</option>
+        </select>
+
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="all">All categories</option>
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+          <option value="Study">Study</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <select id="priorityFilter" aria-label="Filter by priority">
+          <option value="all">All priorities</option>
+          <option value="High">High priority</option>
+          <option value="Medium">Medium priority</option>
+          <option value="Low">Low priority</option>
+        </select>
+
+        <select id="sortTasks" aria-label="Sort tasks">
+          <option value="manual">Custom order</option>
+          <option value="priority">Priority: high first</option>
+          <option value="dueDate">Due date: earliest first</option>
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="alphabetical">Alphabetical</option>
+        </select>
+      </div>
+
+      <p class="drag-hint">↕ Drag tasks to change their order when using Custom order.</p>
+
+      <div id="taskList" aria-live="polite" aria-busy="false">
+        <div class="empty">
+          <span class="empty-icon" aria-hidden="true">✓</span>
+          <h3>No tasks yet</h3>
+          <p>Add your first task to get started.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>TaskFlow · Built with HTML, CSS & JavaScript</p>
+    <p>Your tasks stay in your browser using localStorage.</p>
+  </footer>
+</body>
+</html>
