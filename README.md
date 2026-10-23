@@ -1,3 +1,11 @@
+## 🚀 Live Demo
+
+**Try TaskFlow here:** https://prajwal21-12.github.io/task-manager/
+
+## 💻 Source Code
+
+**GitHub Repository:** https://github.com/Prajwal21-12/task-manager
+
 # TaskFlow — Dynamic Task Manager & Productivity Tracker
 
 TaskFlow is a responsive productivity web application built with HTML, CSS, and vanilla JavaScript. It helps users manage daily tasks, prioritize work, track deadlines, and monitor their progress.
